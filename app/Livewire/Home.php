@@ -20,7 +20,7 @@ class Home extends Component
     {
         seo()
             ->title($title = config('app.name'))
-            ->description($description = 'Lorem ipsum...')
+            ->description($description = 'Pamantasan ng Lungsod ng Maynila Alumni Portal')
             ->canonical($url = route('home'))
             ->addSchema(
                 Schema::webPage()
