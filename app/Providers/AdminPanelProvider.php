@@ -60,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
                     ->disablePluginStyles(),
                 GravatarPlugin::make(),
             ])
+            
             ->defaultAvatarProvider(GravatarProvider::class)
             ->favicon(asset('/favicon-32x32.png'))
             ->brandLogo(fn () => view('components.logo'))
