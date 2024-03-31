@@ -13,13 +13,14 @@ class ListUsers extends ListRecords
      */
     protected static string $resource = UserResource::class;
 
-    /**
-     * The header actions.
-     */
-    protected function getHeaderActions(): array
+    //Alumni Report Title
+    protected static ?string $title = 'Alumni Report';
+
+    //Add more to the record
+   /* protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),
         ];
-    }
+    }*/
 }

@@ -10,6 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Resources\Panel;
 
 class UserResource extends Resource
 {
@@ -23,10 +26,11 @@ class UserResource extends Resource
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+
     /**
      * The settings navigation group.
      */
-    protected static ?string $navigationGroup = 'Collections';
+    //protected static ?string $navigationGroup = 'Collections';
 
     /**
      * The settings navigation sort order.
@@ -44,6 +48,7 @@ class UserResource extends Resource
     /**
      * The resource form.
      */
+
     public static function form(Form $form): Form
     {
         return $form
@@ -83,7 +88,8 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Alumni Name'),
 
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
@@ -91,17 +97,25 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('phone'),
+                Tables\Columns\TextColumn::make('address'),
             ])
+
             ->filters([
-                //
+                    Filter::make('name')->label('Admin hehe'),
+                    Filter::make('course')->label('College'),
+                    Filter::make('gender')->label('Female')
+                     //here pwede mag add ng filter, add tag nalang for users
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                //Tables\Actions\EditAction::make(),
+                //Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\Action::make('print')
                 ]),
             ])
             ->emptyStateActions([

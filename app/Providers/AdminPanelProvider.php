@@ -38,14 +38,16 @@ class AdminPanelProvider extends PanelProvider
             ->profile()
             ->spa()
             ->databaseNotifications()
+            ->resources([])
+                
             ->plugins([
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true,
                         shouldRegisterNavigation: false,
-                        hasAvatars: false
-                    )
-                    ->enableTwoFactorAuthentication(),
+                        hasAvatars: true
+                    ),
+                    //->enableTwoFactorAuthentication(),
                 CuratorPlugin::make()
                     ->label('Media')
                     ->pluralLabel('Media Library')
@@ -81,6 +83,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,

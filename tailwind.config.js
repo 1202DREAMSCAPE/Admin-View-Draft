@@ -9,6 +9,9 @@ module.exports = {
     './resources/**/*.{php,js}',
     './storage/framework/views/*.php',
     './vendor/jaocero/activity-timeline/resources/views/**/*.blade.php',
+    './app/Filament/**/*.php',
+    './resources/views/filament/**/*.blade.php',
+    './vendor/filament/**/*.blade.php',
   ],
   theme: {
     extend: {
