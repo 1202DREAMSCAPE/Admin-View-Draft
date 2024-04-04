@@ -14,6 +14,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Panel;
 
+
 class UserResource extends Resource
 {
     /**
@@ -26,6 +27,7 @@ class UserResource extends Resource
      */
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $label = 'Alumni Record';
 
     /**
      * The settings navigation group.
@@ -115,7 +117,11 @@ class UserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\Action::make('print')
+                    Tables\Actions\Action::make('print'),
+                    Tables\Actions\Action::make('export')->action(function ($selectedRecords) {
+                        // Assuming you have a route named 'generate.pdf' that is handled by GeneratePdfController
+                        return redirect()->route('generate-pdf', ['selectedRecords' => $selectedRecords]);
+                    }),
                 ]),
             ])
             ->emptyStateActions([

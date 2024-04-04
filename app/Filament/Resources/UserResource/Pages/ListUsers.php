@@ -17,10 +17,10 @@ class ListUsers extends ListRecords
     protected static ?string $title = 'Alumni Report';
 
     //Add more to the record
-   /* protected function getHeaderActions(): array
+    protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make(),
         ];
-    }*/
+    }
 }

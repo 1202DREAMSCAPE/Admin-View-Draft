@@ -25,6 +25,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Pboivin\FilamentPeek\FilamentPeekPlugin;
+use Filament\Widgets\AlumniReportWidget;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -45,10 +46,10 @@ class AdminPanelProvider extends PanelProvider
                     ->myProfile(
                         shouldRegisterUserMenu: true,
                         shouldRegisterNavigation: false,
-                        hasAvatars: true
+                        hasAvatars: false
                     ),
                     //->enableTwoFactorAuthentication(),
-                CuratorPlugin::make()
+               /* CuratorPlugin::make()
                     ->label('Media')
                     ->pluralLabel('Media Library')
                     ->navigationIcon('heroicon-o-photo')
@@ -59,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationCountBadge()
                     ->navigationGroup('Settings'),
                 FilamentPeekPlugin::make()
-                    ->disablePluginStyles(),
+                    ->disablePluginStyles(),*/
                 GravatarPlugin::make(),
             ])
             
@@ -83,7 +84,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-
+                \app\Filament\Resources\AlumniReportResource\Widgets\AlumniReport::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -100,4 +101,6 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    
 }
