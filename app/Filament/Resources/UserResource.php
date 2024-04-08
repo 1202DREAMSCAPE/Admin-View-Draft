@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Panel;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\ExportBulkAction;
 
 
 class UserResource extends Resource
@@ -97,27 +99,29 @@ class UserResource extends Resource
         return $table
             
             ->columns([
-                Tables\Columns\TextColumn::make('Student Number')
+                Tables\Columns\TextColumn::make('SNum')
                     ->searchable()
-                    ->label('Student Number')
-                    ->alignCenter(),
+                    ->label('Student Number'),
                     //->sortable(),
 
-                Tables\Columns\TextColumn::make('Student')
+                Tables\Columns\TextColumn::make('LName')
                     ->searchable()
-                    ->label('Last Name')
-                    ->alignCenter(),
+                    ->label('Last Name'),
                     
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('FName')
                     ->searchable()
                     ->label('First Name')
                     ->alignCenter(),
                 
-                Tables\Columns\TextColumn::make('name2')
+                Tables\Columns\TextColumn::make('MNname')
                     ->searchable()
                     ->label('Middle Name')
                     ->alignCenter(),
 
+               /* Tables\Columns\TextColumn::make('EmailAdd')
+                    ->searchable()
+                    ->alignCenter(),*/
+                
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
                     ->alignCenter(),
@@ -126,7 +130,7 @@ class UserResource extends Resource
                   //  ->dateTime()
                     //->sortable(),
 
-                Tables\Columns\TextColumn::make('phone')
+                Tables\Columns\TextColumn::make('ContactNum')
                 ->label('Contact Number')
                 ->alignCenter(),
 
@@ -136,9 +140,16 @@ class UserResource extends Resource
 
             ->filters([
                     Filter::make('name')->label('Admin'),
-                    Filter::make('course')->label('College'),
-                    Filter::make('gender')->label('Female'),
-                    Filter::make('gender')->label('Male')
+                    
+                    SelectFilter::make('Gender')->options([
+                    'male' => 'Male',
+                    'female' => 'Female',
+                    'not specified' => 'Not Specified',
+                ]),
+
+                    SelectFilter::make('College')->options([
+                    'Bachelor of Science in Computer Science',
+                ]),
                      //here pwede mag add ng filter, add tag nalang for users
             ])
             ->actions([
@@ -147,12 +158,9 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    //Tables\Actions\Action::make('print'),
-                    Tables\Actions\Action::make('export')->action(function ($selectedRecords) {
-                        // Assuming you have a route named 'generate.pdf' that is handled by GeneratePdfController
-                        return redirect()->route('generate-pdf', ['selectedRecords' => $selectedRecords]);
-                    }),
+                Tables\Actions\DeleteBulkAction::make(),
+                ExportBulkAction::make(),
+                
                 ]),
             ])
             ->emptyStateActions([
