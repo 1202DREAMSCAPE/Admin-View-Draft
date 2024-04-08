@@ -12,6 +12,8 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\Action;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Actions\ExportBulkAction;
 
 class AlumniReport extends BaseWidget
 {
@@ -20,36 +22,62 @@ class AlumniReport extends BaseWidget
         return $table
             ->query(User::query())
             ->columns([
-                TextColumn::make('name')
+                Tables\Columns\TextColumn::make('SNum')
                     ->searchable()
-                    ->label('Alumni Name'),
-                TextColumn::make('email')
-                    ->searchable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-                TextColumn::make('phone'),
-                TextColumn::make('address'),
+                    ->label('Student Number'),
+                    //->sortable(),
+
+                Tables\Columns\TextColumn::make('LName')
+                    ->searchable()
+                    ->label('Last Name'),
+                    
+                Tables\Columns\TextColumn::make('FName')
+                    ->searchable()
+                    ->label('First Name')
+                    ->alignCenter(),
+                
+                Tables\Columns\TextColumn::make('MNname')
+                    ->searchable()
+                    ->label('Middle Name')
+                    ->alignCenter(),
+
+               /* Tables\Columns\TextColumn::make('EmailAdd')
+                    ->searchable()
+                    ->alignCenter(),*/
+                
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable()
+                    ->alignCenter(),
+                    
+                //Tables\Columns\TextColumn::make('created_at')
+                  //  ->dateTime()
+                    //->sortable(),
+
+                Tables\Columns\TextColumn::make('ContactNum')
+                ->label('Contact Number')
+                ->alignCenter(),
+
+                Tables\Columns\TextColumn::make('Course')
+                ->alignCenter(),
             ])
+
             ->filters([
-                Filter::make('name')->label('Admin hehe'),
-                Filter::make('course')->label('College'),
-                Filter::make('gender')->label('Female')
+                    Filter::make('name')->label('Admin'),
+                    
+                    SelectFilter::make('Gender')->options([
+                    'male' => 'Male',
+                    'female' => 'Female',
+                    'not specified' => 'Not Specified',
+                ]),
+
+                    SelectFilter::make('College')->options([
+                    'Bachelor of Science in Computer Science',
+                ]),
             ])
             ->actions([
                 // Uncomment and adjust as needed
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    Action::make('print'),
-                    Action::make('export')->action(function ($selectedRecords) {
-                        // Assuming you have a route named 'generate.pdf' that is handled by GeneratePdfController
-                        return redirect()->route('generate-pdf', ['selectedRecords' => $selectedRecords]);
-                    }),
-                ]),
             ])
             ->emptyStateActions([
                 Action::make('create')->action(function () {
