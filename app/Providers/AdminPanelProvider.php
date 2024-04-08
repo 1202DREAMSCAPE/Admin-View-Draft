@@ -26,6 +26,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Pboivin\FilamentPeek\FilamentPeekPlugin;
 use Filament\Widgets\AlumniReportWidget;
+use Filament\Forms;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -40,37 +41,37 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->databaseNotifications()
             ->resources([])
-                
+
             ->plugins([
                 BreezyCore::make()
                     ->myProfile(
                         shouldRegisterUserMenu: true,
                         shouldRegisterNavigation: false,
-                        hasAvatars: false
+                        hasAvatars: true,
                     ),
                     //->enableTwoFactorAuthentication(),
-               /* CuratorPlugin::make()
+                CuratorPlugin::make()
                     ->label('Media')
-                    ->pluralLabel('Media Library')
+                    ->pluralLabel('Events Gallery')
                     ->navigationIcon('heroicon-o-photo')
-                    ->navigationGroup('Media')
+                    ->navigationSort('7')
+                    //->navigationGroup('Media')
                     ->navigationCountBadge(),
-                FilamentExceptionsPlugin::make(),
+                /*FilamentExceptionsPlugin::make(),
                 FilamentJobsMonitorPlugin::make()
                     ->navigationCountBadge()
                     ->navigationGroup('Settings'),
                 FilamentPeekPlugin::make()
                     ->disablePluginStyles(),*/
                 GravatarPlugin::make(),
+                
             ])
             
             ->defaultAvatarProvider(GravatarProvider::class)
             ->favicon(asset('/favicon-32x32.png'))
             ->brandLogo(fn () => view('components.logo'))
             ->navigationGroups([
-                'Collections',
-                'Media',
-                'Settings',
+                //for future reference on nav groups
             ])
             ->colors([
                 'primary' => Color::Blue,

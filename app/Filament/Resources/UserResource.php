@@ -28,6 +28,8 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $label = 'Alumni Record';
+    
+
 
     /**
      * The settings navigation group.
@@ -37,7 +39,7 @@ class UserResource extends Resource
     /**
      * The settings navigation sort order.
      */
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     /**
      * Get the navigation badge for the resource.
@@ -66,6 +68,11 @@ class UserResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
 
+                Forms\Components\TextInput::make('Phone')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
+
                 Forms\Components\TextInput::make('password')
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state))
@@ -88,26 +95,50 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            
             ->columns([
+                Tables\Columns\TextColumn::make('Student Number')
+                    ->searchable()
+                    ->label('Student Number')
+                    ->alignCenter(),
+                    //->sortable(),
+
+                Tables\Columns\TextColumn::make('Student')
+                    ->searchable()
+                    ->label('Last Name')
+                    ->alignCenter(),
+                    
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
-                    ->label('Alumni Name'),
+                    ->label('First Name')
+                    ->alignCenter(),
+                
+                Tables\Columns\TextColumn::make('name2')
+                    ->searchable()
+                    ->label('Middle Name')
+                    ->alignCenter(),
 
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->alignCenter(),
+                    
+                //Tables\Columns\TextColumn::make('created_at')
+                  //  ->dateTime()
+                    //->sortable(),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('phone')
+                ->label('Contact Number')
+                ->alignCenter(),
 
-                Tables\Columns\TextColumn::make('phone'),
-                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('Course')
+                ->alignCenter(),
             ])
 
             ->filters([
-                    Filter::make('name')->label('Admin hehe'),
+                    Filter::make('name')->label('Admin'),
                     Filter::make('course')->label('College'),
-                    Filter::make('gender')->label('Female')
+                    Filter::make('gender')->label('Female'),
+                    Filter::make('gender')->label('Male')
                      //here pwede mag add ng filter, add tag nalang for users
             ])
             ->actions([
@@ -117,7 +148,7 @@ class UserResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\Action::make('print'),
+                    //Tables\Actions\Action::make('print'),
                     Tables\Actions\Action::make('export')->action(function ($selectedRecords) {
                         // Assuming you have a route named 'generate.pdf' that is handled by GeneratePdfController
                         return redirect()->route('generate-pdf', ['selectedRecords' => $selectedRecords]);
